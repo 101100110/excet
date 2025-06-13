@@ -19,9 +19,43 @@ let expInfo = {
 };
 
 // Start code blocks for 'Before Experiment'
-// init psychoJS:
-const psychoJS = new PsychoJS({
-  debug: true
+// 获取 PsychoJS 主对象
+const psychoJS = new window.PsychoJS.PsychoJS({
+    debug: true
+});
+
+// 初始化实验窗口
+psychoJS.openWindow({
+    fullscr: false,
+    color: new window.PsychoJS.util.Color('black'),
+    units: 'height'
+});
+
+// 创建一个文本刺激
+const textStim = new window.PsychoJS.visual.TextStim({
+    win: psychoJS.window,
+    text: '你好，PsychoJS！',
+    color: new window.PsychoJS.util.Color('white'),
+    height: 0.1
+});
+
+// 显示文本
+psychoJS.schedule(() => {
+    textStim.setAutoDraw(true);
+    return window.PsychoJS.Scheduler.Event.NEXT;
+});
+
+// 等待2秒后结束实验
+psychoJS.schedule(window.PsychoJS.util.createWait(2.0));
+psychoJS.schedule(() => {
+    psychoJS.quit();
+    return window.PsychoJS.Scheduler.Event.QUIT;
+});
+
+// 启动实验
+psychoJS.start({
+    expName: 'demo',
+    expInfo: {}
 });
 
 // open window:
